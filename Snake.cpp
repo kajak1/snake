@@ -43,8 +43,6 @@ void Snake::move() {
 
 void Snake::update() {
   move();
-//  moveY();
-  // move snake
   // check whether he ate something
 }
 
@@ -55,30 +53,10 @@ int Snake::getLength() const {
 void Snake::turn(Turn direction) {
   switch (direction) {
     case LEFT:
-      if(indX > 0){
-        indX -= 1;
-      } else {
-        indX = 3;
-      }
-
-      if(indY < 3){
-        indY += 1;
-      } else {
-        indY = 0;
-      }
+      turnLeft();
       break;
     case RIGHT:
-      if(indX < 3){
-        indX += 1;
-      } else {
-        indX = 0;
-      }
-
-      if(indY > 0){
-        indY -= 1;
-      } else {
-        indY = 3;
-      }
+      turnRight();
       break;
   }
 }
@@ -89,4 +67,34 @@ int Snake::getDirX() const {
 
 int Snake::getDirY() const {
   return dirY[indY];
+}
+
+void Snake::turnRight() {
+  // change X and Y index, to get proper directions
+  if(indX < 3){
+    indX += 1;
+  } else {
+    indX = 0;
+  }
+
+  if(indY > 0){
+    indY -= 1;
+  } else {
+    indY = 3;
+  }
+}
+
+void Snake::turnLeft() {
+  // change X and Y index, to get proper directions
+  if(indX > 0){
+    indX -= 1;
+  } else {
+    indX = 3;
+  }
+
+  if(indY < 3){
+    indY += 1;
+  } else {
+    indY = 0;
+  }
 }

@@ -6,7 +6,6 @@
 
 enum Turn { LEFT, RIGHT };
 
-
 class Snake{
   int length = 3;
 
@@ -14,19 +13,17 @@ class Snake{
   int height = 20.f;
   int posX = 0.f;
   int posY = 0.f;
-//  int dirX = 1;
-//  int dirY = 1;
   int speed = 5;
 
   int dirX[4] = {-1, 0, 1, 0};
   int dirY[4] = {-1, 0, 1, 0};
-//  int moveUP
   int indX = 3;
   int indY = 2;
 
   void move();
-  void moveY();
 
+  void turnLeft();
+  void turnRight();
   public:
     std::vector<sf::RectangleShape> parts;
     Snake(bool debug);
