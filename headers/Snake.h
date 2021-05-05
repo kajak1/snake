@@ -1,26 +1,47 @@
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
 
-class Snake{
-  int width = 50.f;
-  int height = 50.f;
-  int posX = 10.f;
-  int posY = 10.f;
-  int dirX = 1;
-  int dirY = 1;
-  int speed = 1;
+#include <vector>
+#include <SFML/Graphics.hpp>
 
-  void moveX();
+enum Turn { LEFT, RIGHT };
+
+
+class Snake{
+  int length = 3;
+
+  int width = 20.f;
+  int height = 20.f;
+  int posX = 0.f;
+  int posY = 0.f;
+//  int dirX = 1;
+//  int dirY = 1;
+  int speed = 5;
+
+  int dirX[4] = {-1, 0, 1, 0};
+  int dirY[4] = {-1, 0, 1, 0};
+//  int moveUP
+  int indX = 3;
+  int indY = 2;
+
+  void move();
   void moveY();
 
   public:
-    Snake();
+    std::vector<sf::RectangleShape> parts;
+    Snake(bool debug);
+    int getLength() const;
     int getWidth() const;
     int getHeight() const;
     int getPosX() const;
     int getPosY() const;
+    int getDirX() const;
+    int getDirY() const;
+    void chngIndX(Turn directon);
+    void chngIndY(Turn directon);
     void update();
-    void turn();
+
+    void turn(Turn direction);
 };
 
 #endif //SNAKE_SNAKE_H
