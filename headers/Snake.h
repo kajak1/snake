@@ -7,12 +7,12 @@
 enum Turn { LEFT, RIGHT };
 
 class Snake{
-  int length = 3;
+  int length = 300;
 
   int width = 20.f;
   int height = 20.f;
-  int posX = 0.f;
-  int posY = 0.f;
+  int posX = 100.f;
+  int posY = 100.f;
   int speed = 5;
 
   int dirX[4] = {-1, 0, 1, 0};
@@ -34,8 +34,7 @@ class Snake{
     int getPosY() const;
     int getDirX() const;
     int getDirY() const;
-    void chngIndX(Turn directon);
-    void chngIndY(Turn directon);
+
     void update();
 
     void turn(Turn direction);

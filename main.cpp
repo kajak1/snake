@@ -17,7 +17,6 @@ int main() {
 
   EventHandler eventHandler(snake, game, view, window);
 
-  window.setKeyRepeatEnabled(false);
   window.setFramerateLimit(60);
 
   while (window.isOpen())

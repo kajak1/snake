@@ -33,12 +33,29 @@ int Snake::getPosY() const {
 }
 
 void Snake::move() {
-  for(int i = 0; i < length; i++){
-    sf::Vector2f pos = parts[i].getPosition();
-    parts[i].setPosition(pos.x + (speed * dirX[indX]), pos.y + (speed * dirY[indY]));
+  // working
+//  for(int i = 0; i < length; i++){
+//    sf::Vector2f pos = parts[i].getPosition();
+//    parts[i].setPosition(pos.x + (speed * dirX[indX]), pos.y + (speed * dirY[indY]));
+//  }
+
+  // new
+  sf::Vector2f pos = parts[0].getPosition();
+  sf::Vector2f pos2;
+  parts[0].setPosition(pos.x + (speed * dirX[indX]), pos.y + (speed * dirY[indY]));
+
+  for(int i = 1; i < length - 1; i++){
+    if(i % 2 == 0){
+      pos = parts[i].getPosition();
+      parts[i].setPosition(pos2.x, pos2.y);
+      continue;
+    }
+    if(i % 2 == 1){
+      pos2 = parts[i].getPosition();
+      parts[i].setPosition(pos.x, pos.y);
+      continue;
+    }
   }
-  std::cout << dirX[indX] << " " << dirY[indY] << '\n';
-//  posX += speed;
 }
 
 void Snake::update() {
