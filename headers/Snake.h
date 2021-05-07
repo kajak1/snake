@@ -1,22 +1,22 @@
 #ifndef SNAKE_SNAKE_H
 #define SNAKE_SNAKE_H
 
-#include <vector>
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 enum Turn { LEFT, RIGHT };
 
 class Snake{
-  int length = 300;
+  int length = 3;
 
-  int width = 20.f;
-  int height = 20.f;
-  int posX = 100.f;
+  const int width = 20.f;
+  const int height = 20.f;
+  int posX = 300.f;
   int posY = 100.f;
-  int speed = 5;
+  const int speed = 20;
 
-  int dirX[4] = {-1, 0, 1, 0};
-  int dirY[4] = {-1, 0, 1, 0};
+  const int dirX[4] = {-1, 0, 1, 0};
+  const int dirY[4] = {-1, 0, 1, 0};
   int indX = 3;
   int indY = 2;
 
@@ -24,10 +24,12 @@ class Snake{
 
   void turnLeft();
   void turnRight();
+  std::vector<sf::RectangleShape> parts;
   public:
-    std::vector<sf::RectangleShape> parts;
-    Snake(bool debug);
+    Snake();
+    std::vector<sf::RectangleShape>& getParts();
     int getLength() const;
+    void incLength();
     int getWidth() const;
     int getHeight() const;
     int getPosX() const;

@@ -1,19 +1,16 @@
 #include <iostream>
 #include "headers/Snake.h"
 
-Snake::Snake(bool debug) {
-  if(debug){
-    for(int i = 0; i < length; i++){
-      sf::RectangleShape newPart(sf::Vector2f(width, height));
-      newPart.setPosition(posX-(i * width), posY);
-      parts.push_back(newPart);
-    }
-    return;
+Snake::Snake() {
+  for(int i = 0; i < length; i++){
+    sf::RectangleShape newPart(sf::Vector2f(width, height));
+    newPart.setPosition(posX-(i * width), posY);
+    parts.push_back(newPart);
   }
 
-  sf::RectangleShape newPart(sf::Vector2f(width, height));
-  newPart.setPosition(posX, posY);
-  parts.push_back(newPart);
+//  sf::RectangleShape newPart(sf::Vector2f(width, height));
+//  newPart.setPosition(posX, posY);
+//  parts.push_back(newPart);
 }
 
 int Snake::getWidth() const {
@@ -44,7 +41,7 @@ void Snake::move() {
   sf::Vector2f pos2;
   parts[0].setPosition(pos.x + (speed * dirX[indX]), pos.y + (speed * dirY[indY]));
 
-  for(int i = 1; i < length - 1; i++){
+  for(int i = 1; i <= length - 1; i++){
     if(i % 2 == 0){
       pos = parts[i].getPosition();
       parts[i].setPosition(pos2.x, pos2.y);
@@ -114,4 +111,17 @@ void Snake::turnLeft() {
   } else {
     indY = 0;
   }
+}
+
+void Snake::incLength() {
+  length++;
+  sf::RectangleShape newPart(sf::Vector2f(width, height));
+  sf::Vector2f lastPartPos = parts[length-2].getPosition(); // -2 because length-1 is the new created empty part
+  newPart.setFillColor(sf::Color::Green);
+  newPart.setPosition(lastPartPos.x, lastPartPos.y);
+  parts.push_back(newPart);
+}
+
+std::vector<sf::RectangleShape> &Snake::getParts()  {
+  return parts;
 }

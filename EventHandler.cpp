@@ -8,10 +8,10 @@ void EventHandler::listen(sf::Event &event) {
     window.close();
 
   if (event.type == sf::Event::KeyPressed) {
+    int dirX = snake.getDirX();
+    int dirY = snake.getDirY();
     if (event.key.code == sf::Keyboard::A) {
       std::cout << "left\n";
-      int dirX = snake.getDirX();
-      int dirY = snake.getDirY();
       if(dirX == 0 && dirY == -1){
         // going up
         snake.turn(LEFT);
@@ -26,8 +26,6 @@ void EventHandler::listen(sf::Event &event) {
 
     if (event.key.code == sf::Keyboard::W) {
       std::cout << "up\n";
-      int dirX = snake.getDirX();
-      int dirY = snake.getDirY();
       if(dirX == -1 && dirY == 0){
         // going left
         snake.turn(RIGHT);
@@ -42,8 +40,6 @@ void EventHandler::listen(sf::Event &event) {
 
     if (event.key.code == sf::Keyboard::D) {
       std::cout << "right\n";
-      int dirX = snake.getDirX();
-      int dirY = snake.getDirY();
       if(dirX == 0 && dirY == -1){
         // going up
         snake.turn(RIGHT);
@@ -58,8 +54,6 @@ void EventHandler::listen(sf::Event &event) {
 
     if (event.key.code == sf::Keyboard::S) {
       std::cout << "down\n";
-      int dirX = snake.getDirX();
-      int dirY = snake.getDirY();
       if(dirX == 1 && dirY == 0){
         // going left
         snake.turn(RIGHT);
@@ -72,9 +66,4 @@ void EventHandler::listen(sf::Event &event) {
       }
     }
   }
-
-//  if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-//    snake.turn(LEFT);
-//    return;
-//  }
 }
