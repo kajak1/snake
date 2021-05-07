@@ -3,15 +3,15 @@
 
 #include <SFML/Graphics.hpp>
 #include "Snake.h"
-#include "Game.h"
+#include "Map.h"
 
-class View{
+class View {
   Snake &snake;
-  Game &game;
+  Map &map;
   sf::RenderWindow &window;
 
   public:
-    View(Snake &snake, Game &game, sf::RenderWindow &window);
+    View(Snake &snake, Map &map, sf::RenderWindow &window);
     void drawSnake();
     void drawMap();
 };

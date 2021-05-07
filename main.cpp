@@ -1,23 +1,23 @@
 #include <iostream>
+#include <ctime>
 #include <SFML/Window.hpp>
 
 #include "headers/Snake.h"
 #include "headers/Game.h"
-#include "headers/View.h"
 #include "headers/EventHandler.h"
-#include "headers/Map.h"
 
 int main() {
+  srand(time(NULL));
   sf::RenderWindow window(sf::VideoMode(800, 600), "Snake");
 
-  Map map(NORMAL);
-  Snake snake(true);
-  Game game(snake, window);
-  View view(snake, game, window);
+  Snake snake;
+  Map map(NORMAL, snake);
+  View view(snake, map, window);
+  Game game(snake, map, view, window);
 
   EventHandler eventHandler(snake, game, view, window);
 
-  window.setFramerateLimit(60);
+  window.setFramerateLimit( 1);
 
   while (window.isOpen())
   {
@@ -28,9 +28,7 @@ int main() {
     }
 
     window.clear(sf::Color::Black);
-    snake.update();
-//    game.debug_display();
-    view.drawSnake();
+    game.run();
     window.display();
   }
 
