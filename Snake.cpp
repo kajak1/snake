@@ -7,10 +7,6 @@ Snake::Snake() {
     newPart.setPosition(posX-(i * width), posY);
     parts.push_back(newPart);
   }
-
-//  sf::RectangleShape newPart(sf::Vector2f(width, height));
-//  newPart.setPosition(posX, posY);
-//  parts.push_back(newPart);
 }
 
 int Snake::getWidth() const {
@@ -30,29 +26,17 @@ int Snake::getPosY() const {
 }
 
 void Snake::move() {
-  // working
-//  for(int i = 0; i < length; i++){
-//    sf::Vector2f pos = parts[i].getPosition();
-//    parts[i].setPosition(pos.x + (speed * dirX[indX]), pos.y + (speed * dirY[indY]));
-//  }
-
-  // new
   sf::Vector2f pos = parts[0].getPosition();
-  sf::Vector2f pos2;
-  parts[0].setPosition(pos.x + (speed * dirX[indX]), pos.y + (speed * dirY[indY]));
 
-  for(int i = 1; i <= length - 1; i++){
-    if(i % 2 == 0){
-      pos = parts[i].getPosition();
-      parts[i].setPosition(pos2.x, pos2.y);
-      continue;
-    }
-    if(i % 2 == 1){
-      pos2 = parts[i].getPosition();
-      parts[i].setPosition(pos.x, pos.y);
-      continue;
-    }
+  for(int i = length - 1; i > 0; i--) {
+    sf::Vector2f prevPos = parts[i - 1].getPosition();
+    parts[i].setPosition(prevPos.x, prevPos.y);
   }
+
+  int futurePosX = pos.x + (speed * dirX[indX]);
+  int futurePosY = pos.y + (speed * dirY[indY]);
+
+  parts[0].setPosition(futurePosX, futurePosY);
 }
 
 void Snake::update() {
@@ -124,4 +108,8 @@ void Snake::incLength() {
 
 std::vector<sf::RectangleShape> &Snake::getParts()  {
   return parts;
+}
+
+int Snake::getSpeed() const {
+  return speed;
 }
