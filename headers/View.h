@@ -10,10 +10,14 @@ class View {
   Map &map;
   sf::RenderWindow &window;
 
+  bool isMenuActive = true;
+
   public:
     View(Snake &snake, Map &map, sf::RenderWindow &window);
     void drawSnake();
     void drawMap();
+    void drawMenu();
+    void toggleMenu();
 };
 
 #endif //SNAKE_VIEW_H

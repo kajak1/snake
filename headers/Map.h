@@ -19,10 +19,13 @@ struct FoodPos{
 
 class Map{
   Snake &snake;
-  Field board[32][24];
-  int width = 24;
-  int height = 32;
+  Field board[20][32];
+  int width = 32;
+  int height = 20;
   int foodCount = 1;
+  int offsetX = 100.f;
+  int offsetY = 120.f;
+
   FoodPos foodPos;
   GameMode mode;
   GameState gameState;
@@ -30,11 +33,19 @@ class Map{
     Map(GameMode mode, Snake &snake);
     int getWidth() const;
     int getHeight() const;
+    int getOffsetX() const;
+    int getOffsetY() const;
+
+    bool isValid(int row, int column) const;
+
     void createFood();
     void clearFood();
-    void updateSnakePos();
     bool hasFood(int row, int column) const;
     void checkFoodEat();
+
+    void updateSnakePos();
+    bool isSnakeOutside() const;
+    bool snakeSelfCollide() const;
 };
 
 #endif //SNAKE_MAP_H

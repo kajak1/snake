@@ -15,10 +15,18 @@ void Game::debug_display() const {
 }
 
 void Game::run() {
+  if(!gameOver) {
+    snake.update();
+    map.checkFoodEat();
+    map.updateSnakePos();
+    gameOver = map.isSnakeOutside() || map.snakeSelfCollide();
+  }
+
+  if(!gameOver) {
+    view.drawMap();
+    view.drawSnake();
+  } else {
+    view.drawMenu();
+  }
 //    game.debug_display();
-  snake.update();
-  map.checkFoodEat();
-  map.updateSnakePos();
-  view.drawMap();
-  view.drawSnake();
 }

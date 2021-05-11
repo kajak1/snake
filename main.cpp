@@ -8,7 +8,7 @@
 
 int main() {
   srand(time(NULL));
-  sf::RenderWindow window(sf::VideoMode(800, 600), "Snake");
+  sf::RenderWindow window(sf::VideoMode(840, 600), "Snake");
 
   Snake snake;
   Map map(NORMAL, snake);
@@ -17,16 +17,13 @@ int main() {
 
   EventHandler eventHandler(snake, game, view, window);
 
-  window.setFramerateLimit( 1);
+  window.setFramerateLimit( 8);
 
-  while (window.isOpen())
-  {
+  while (window.isOpen()) {
     sf::Event event;
-    while (window.pollEvent(event))
-    {
+    while (window.pollEvent(event)) {
       eventHandler.listen(event);
     }
-
     window.clear(sf::Color::Black);
     game.run();
     window.display();

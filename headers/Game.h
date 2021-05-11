@@ -10,6 +10,9 @@ class Game{
   Map &map;
   View &view;
   sf::RenderWindow &window;
+
+  bool gameOver = false;
+
   public:
     Game(Snake &snake, Map &map, View &view, sf::RenderWindow &window);
     void debug_display() const;

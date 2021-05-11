@@ -14,14 +14,22 @@ void View::drawMap() {
     for(int column = 0; column < map.getWidth(); column++){
       sf::RectangleShape square(sf::Vector2f(20.f, 20.f));
       square.setOutlineThickness(1);
-      if(map.hasFood(row, column)) {
-        square.setFillColor(sf::Color::Magenta);
-      } else{
-        square.setFillColor(sf::Color::Blue);
-      }
+      sf::Color color = map.hasFood(row, column) ? sf::Color::Magenta : sf::Color::Blue;
+      square.setFillColor(color);
       square.setOutlineColor(sf::Color::Red);
-      square.setPosition(row*20.f, column*20.f);
+      square.setPosition((column*20.f) + map.getOffsetX(), (row*20.f) + map.getOffsetY());
       window.draw(square);
     }
   }
+}
+
+void View::drawMenu() {
+  if(isMenuActive){
+    sf::RectangleShape menu(sf::Vector2f(50.f, 50.f));
+    window.draw(menu);
+  }
+}
+
+void View::toggleMenu() {
+  isMenuActive = !isMenuActive;
 }

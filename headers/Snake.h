@@ -11,8 +11,8 @@ class Snake{
 
   const int width = 20.f;
   const int height = 20.f;
-  int posX = 300.f;
-  int posY = 100.f;
+  int posX = 200.f;
+  int posY = 220.f;
   const int speed = 20;
 
   const int dirX[4] = {-1, 0, 1, 0};
@@ -36,6 +36,7 @@ class Snake{
     int getPosY() const;
     int getDirX() const;
     int getDirY() const;
+    int getSpeed() const;
 
     void update();
 
