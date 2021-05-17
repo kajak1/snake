@@ -17,6 +17,8 @@ class EventHandler{
     EventHandler(Snake &snake, Game &game, View &view, sf::RenderWindow &window);
     void listen(sf::Event &event);
     void handleBtnClick(sf::Event &event);
+    void handleWASD_Click(sf::Event &event);
+    void handleSpaceClick();
 };
 
 #endif //SNAKE_EVENTHANDLER_H

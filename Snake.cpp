@@ -106,10 +106,27 @@ void Snake::incLength() {
   parts.push_back(newPart);
 }
 
-std::vector<sf::RectangleShape> &Snake::getParts()  {
+sf::Vector2f Snake::getPartPos(int part) const {
+  return parts[part].getPosition();
+}
+
+std::vector<sf::RectangleShape> Snake::getParts() {
   return parts;
 }
 
-int Snake::getSpeed() const {
-  return speed;
+void Snake::resetState() {
+  length = 3;
+  posX = 200.f;
+  posY = 220.f;
+  indX = 3;
+  indY = 2;
+
+  parts.clear();
+
+  for(int i = 0; i < length; i++){
+    sf::RectangleShape newPart(sf::Vector2f(width, height));
+    newPart.setPosition(posX-(i * width), posY);
+    parts.push_back(newPart);
+  }
 }
+

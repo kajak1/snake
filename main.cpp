@@ -11,9 +11,12 @@ int main() {
   sf::RenderWindow window(sf::VideoMode(840, 600), "Snake");
 
   Snake snake;
-  Map map(NORMAL, snake);
-  View view(snake, map, window);
-  Game game(snake, map, view, window);
+  Map map(snake);
+  StartMenu startMenu;
+  EndMenu endMenu;
+  GameplayMenu gameplayMenu;
+  View view(snake, map, startMenu, endMenu, gameplayMenu, window);
+  Game game(snake, map, startMenu, endMenu, gameplayMenu, view, window);
 
   EventHandler eventHandler(snake, game, view, window);
 

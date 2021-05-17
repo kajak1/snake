@@ -1,0 +1,21 @@
+#include "../headers/menus/Menu.h"
+#include <iostream>
+
+Menu::Menu() {
+  setupFont();
+}
+
+void Menu::setupFont() {
+  if (!font.loadFromFile("RobotoMono-Regular.ttf")) {
+    std::cout << "ERROR!\n";
+  }
+}
+
+void Menu::setupTxt(sf::Text &entity, std::string text, int fontSize, int posY) {
+  entity.setFont(font);
+  entity.setString(text);
+  entity.setCharacterSize(fontSize);
+  sf::FloatRect textRect = entity.getLocalBounds();
+  entity.setOrigin(textRect.left + textRect.width/2.0f,textRect.top  + textRect.height/2.0f);
+  entity.setPosition(840/2, posY);
+}

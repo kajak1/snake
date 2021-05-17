@@ -2,22 +2,33 @@
 #define SNAKE_VIEW_H
 
 #include <SFML/Graphics.hpp>
+
 #include "Snake.h"
 #include "Map.h"
+#include "menus/StartMenu.h"
+#include "menus/EndMenu.h"
+#include "menus/GameplayMenu.h"
 
 class View {
   Snake &snake;
   Map &map;
+  StartMenu &startMenu;
+  EndMenu &endMenu;
+  GameplayMenu &gameplayMenu;
   sf::RenderWindow &window;
 
-  bool isMenuActive = true;
-
   public:
-    View(Snake &snake, Map &map, sf::RenderWindow &window);
+    View(Snake &snake,
+         Map &map,
+         StartMenu &startMenu,
+         EndMenu &endMenu,
+         GameplayMenu &gameplayMenu,
+         sf::RenderWindow &window);
     void drawSnake();
     void drawMap();
-    void drawMenu();
-    void toggleMenu();
+    void drawStartMenu();
+    void drawEndMenu();
+    void drawGameplayMenu();
 };
 
 #endif //SNAKE_VIEW_H

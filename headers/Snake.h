@@ -13,7 +13,7 @@ class Snake{
   const int height = 20.f;
   int posX = 200.f;
   int posY = 220.f;
-  const int speed = 20;
+  int speed = 20;
 
   const int dirX[4] = {-1, 0, 1, 0};
   const int dirY[4] = {-1, 0, 1, 0};
@@ -27,7 +27,8 @@ class Snake{
   std::vector<sf::RectangleShape> parts;
   public:
     Snake();
-    std::vector<sf::RectangleShape>& getParts();
+    std::vector<sf::RectangleShape> getParts();
+    sf::Vector2f getPartPos(int part) const;
     int getLength() const;
     void incLength();
     int getWidth() const;
@@ -36,9 +37,9 @@ class Snake{
     int getPosY() const;
     int getDirX() const;
     int getDirY() const;
-    int getSpeed() const;
 
     void update();
+    void resetState();
 
     void turn(Turn direction);
 };

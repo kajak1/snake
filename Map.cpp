@@ -1,8 +1,7 @@
 #include "headers/Map.h"
 #include <iostream>
 
-Map::Map(GameMode mode, Snake &snake) : snake(snake){
-  this->mode = mode;
+Map::Map(Snake &snake) : snake(snake){
   // 0 to 19
   for(int row = 0; row < height; row++){
     // 0 to 31
@@ -13,11 +12,9 @@ Map::Map(GameMode mode, Snake &snake) : snake(snake){
     }
   }
 
-  std::vector<sf::RectangleShape> parts = snake.getParts();
-
   for(int i = 0; i < snake.getLength(); i++){
-    int x = parts[i].getPosition().x - offsetX;
-    int y = parts[i].getPosition().y - offsetY;
+    int x = snake.getPartPos(i).x - offsetX;
+    int y = snake.getPartPos(i).y - offsetY;
     int row = y/snake.getWidth();
     int column = x/snake.getHeight();
 
@@ -52,10 +49,9 @@ void Map::updateSnakePos() {
   }
 
   // create new one
-  std::vector<sf::RectangleShape> parts = snake.getParts();
   for(int i = 0; i < snake.getLength(); i++){
-    int x = parts[i].getPosition().x - offsetX;
-    int y = parts[i].getPosition().y - offsetY;
+    int x = snake.getPartPos(i).x - offsetX;
+    int y = snake.getPartPos(i).y - offsetY;
     int row = y/snake.getWidth();
     int column = x/snake.getHeight();
 
@@ -92,24 +88,23 @@ bool Map::hasFood(int row, int column) const {
   return false;
 }
 
-void Map::checkFoodEat() {
-  std::vector<sf::RectangleShape> parts = snake.getParts();
-  int x = parts[0].getPosition().x - offsetX;
-  int y = parts[0].getPosition().y - offsetY;
+bool Map::checkFoodEat() {
+  int x = snake.getPartPos(0).x - offsetX;
+  int y = snake.getPartPos(0).y - offsetY;
   int row = y/snake.getWidth();
   int column = x/snake.getHeight();
   if(row == foodPos.row && column == foodPos.column){
     snake.incLength();
     clearFood();
     createFood();
+    return true;
   }
+  return false;
 }
 
 bool Map::isSnakeOutside() const {
-  std::vector<sf::RectangleShape> &parts = snake.getParts();
-
-  int x = parts[0].getPosition().x - offsetX;
-  int y = parts[0].getPosition().y - offsetY;
+  int x = snake.getPartPos(0).x - offsetX;
+  int y = snake.getPartPos(0).y - offsetY;
 
   int mapWidth = width * 20.f;
   int mapHeight = height * 20.f;
@@ -129,14 +124,12 @@ int Map::getOffsetY() const {
 }
 
 bool Map::snakeSelfCollide() const {
-  std::vector<sf::RectangleShape> parts = snake.getParts();
-
-  int headX = parts[0].getPosition().x - offsetX;
-  int headY = parts[0].getPosition().y - offsetY;
+  int headX = snake.getPartPos(0).x - offsetX;
+  int headY = snake.getPartPos(0).y - offsetY;
 
   for(int i = 1; i < snake.getLength(); i++){
-    int x = parts[i].getPosition().x - offsetX;
-    int y = parts[i].getPosition().y - offsetY;
+    int x = snake.getPartPos(i).x - offsetX;
+    int y = snake.getPartPos(i).y - offsetY;
 
     if(headX == x && headY == y){
       return true;
@@ -150,4 +143,32 @@ bool Map::isValid(int row, int column) const {
     return false;
   }
   return true;
+}
+
+void Map::resetState() {
+  for(int row = 0; row < height; row++){
+    // 0 to 31
+    for(int column = 0; column < width; column++){
+      board[row][column].hasSnake = false;
+      board[row][column].hasFruit = false;
+      board[row][column].hasObstacle = false;
+    }
+  }
+
+  for(int i = 0; i < snake.getLength(); i++){
+    int x = snake.getPartPos(i).x - offsetX;
+    int y = snake.getPartPos(i).y - offsetY;
+    int row = y/snake.getWidth();
+    int column = x/snake.getHeight();
+
+    if(isValid(row, column)){
+      board[row][column].hasSnake = true;
+    }
+  }
+
+  int foodPlaced = 0;
+  while(foodPlaced < foodCount){
+    createFood();
+    foodPlaced++;
+  }
 }
