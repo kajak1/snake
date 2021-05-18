@@ -11,6 +11,6 @@ add_compile_options(-Wall -Wextra -g)
 
 find_package(SFML 2 COMPONENTS graphics audio REQUIRED)
 
-add_executable(${PROJECT_NAME}  main.cpp Snake.cpp Game.cpp EventHandler.cpp View.cpp Map.cpp menus/Menu.cpp menus/StartMenu.cpp menus/EndMenu.cpp menus/GameplayMenu.cpp menus/MainMenu.cpp)
+add_executable(${PROJECT_NAME}  main.cpp Snake.cpp Game.cpp EventHandler.cpp View.cpp Map.cpp menus/Menu.cpp menus/StartMenu.cpp menus/EndMenu.cpp menus/GameplayMenu.cpp menus/MainMenu.cpp Highscores.cpp)
 
 target_link_libraries(${PROJECT_NAME} sfml-graphics sfml-audio)

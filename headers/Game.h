@@ -5,6 +5,7 @@
 
 #include "Snake.h"
 #include "View.h"
+#include "Highscores.h"
 
 enum GameMode  { EASY, NORMAL, HARD };
 enum GameState { RUNNING, NOT_RUNNING, FINISHED_WIN, FINISHED_LOSS };
@@ -18,6 +19,8 @@ class Game {
   GameplayMenu &gameplayMenu;
   View &view;
   sf::RenderWindow &window;
+
+  Highscores highscores;
 
   int score = 0;
 
@@ -42,8 +45,8 @@ class Game {
     MenuActive getActiveMenu() const;
     int getScore() const;
     void resetScore();
+    void saveScore();
     void checkScoreUpdate();
-
 };
 
 #endif

@@ -3,8 +3,6 @@
 #include "headers/Snake.h"
 #include "headers/Game.h"
 
-#include <iostream>
-
 Game::Game(Snake &snake, Map &map, StartMenu &startMenu,
            EndMenu &endMenu,
            GameplayMenu &gameplayMenu, View &view, sf::RenderWindow &window)
@@ -22,6 +20,7 @@ void Game::run() {
     if(map.isSnakeOutside() || map.snakeSelfCollide()){
       gameState = FINISHED_LOSS;
       menuActive = END_MENU;
+      saveScore();
     }
   }
   if(gameState == RUNNING) {
@@ -63,11 +62,19 @@ void Game::restart() {
   snake.resetState();
   map.resetState();
   resetScore();
+
   gameplayMenu.updateScoreTxt(score);
   endMenu.updateEndGameScoreTxt(score);
+
   startGame();
 }
 
 void Game::resetScore() {
   score = 0;
+}
+
+void Game::saveScore()  {
+  highscores.readFromFile();
+  highscores.updateVector(score);
+  highscores.saveToFile(score);
 }
