@@ -20,7 +20,7 @@ int main() {
 
   EventHandler eventHandler(snake, game, view, window);
 
-  window.setFramerateLimit( 8);
+  window.setFramerateLimit( 16);
 
   while (window.isOpen()) {
     sf::Event event;

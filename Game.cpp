@@ -21,7 +21,7 @@ void Game::run() {
       gameState = FINISHED_LOSS;
       menuActive = END_MENU;
       saveScore();
-      endMenu.createHighscoresTxt(highscores.getHighscores());
+      endMenu.createhighscoresVec(highscores.getHighscores());
     }
   }
   if(gameState == RUNNING) {
