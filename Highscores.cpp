@@ -32,6 +32,7 @@ void Highscores::saveToFile() {
   clear();
 
   highscoresIN.open("../highscores.txt", std::ios::app);
+
   if (highscoresIN.is_open()) {
     for(int highscore: highscores) {
       highscoresIN << highscore << std::endl;
@@ -44,10 +45,13 @@ void Highscores::saveToFile() {
 
 void Highscores::updateVector(int score) {
   if(highscores.empty()){
-    highscores.push_back(score);
-    return;
+    if(score > 0){
+      highscores.push_back(score);
+      return;
+    }
   }
 
+  if(highscores.size() > 0){
     if (score > highscores[0]) {
       if(highscores.size() < 10){
         highscores.push_back(score);
@@ -57,4 +61,9 @@ void Highscores::updateVector(int score) {
       }
       highscores[0] = score;
     }
+  }
+}
+
+std::vector<int> Highscores::getHighscores() const {
+  return highscores;
 }

@@ -21,6 +21,7 @@ void Game::run() {
       gameState = FINISHED_LOSS;
       menuActive = END_MENU;
       saveScore();
+      endMenu.createHighscoresTxt(highscores.getHighscores());
     }
   }
   if(gameState == RUNNING) {
@@ -76,5 +77,5 @@ void Game::resetScore() {
 void Game::saveScore()  {
   highscores.readFromFile();
   highscores.updateVector(score);
-  highscores.saveToFile(score);
+  highscores.saveToFile();
 }

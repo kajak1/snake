@@ -1,3 +1,4 @@
+#include <iostream>
 #include "../headers/menus/EndMenu.h"
 
 EndMenu::EndMenu() {
@@ -22,4 +23,20 @@ void EndMenu::updateEndGameScoreTxt(int score) {
 
 sf::Text EndMenu::getEndGameScoreTxt() const {
   return endGameScoreTxt;
+}
+
+void EndMenu::createHighscoresTxt(std::vector<int> highscores) {
+  highscoresTxt.clear();
+  if(highscores.size() > 0) {
+    for (size_t i = 0; i <= highscores.size() - 1; i++){
+      sf::Text highscoreTMP;
+      setupTxt(highscoreTMP, std::to_string(highscores[i]), 34, (50.f * i) + 20.f);
+      highscoreTMP.setFillColor(sf::Color::Magenta);
+      highscoresTxt.push_back(highscoreTMP);
+    }
+  }
+}
+
+std::vector<sf::Text> EndMenu::getHighscoresTxt() const {
+  return highscoresTxt;
 }

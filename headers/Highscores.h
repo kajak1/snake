@@ -16,7 +16,8 @@ class Highscores {
     void readFromFile();
     void clear();
     void updateVector(int score);
-    void saveToFile(int score);
+    void saveToFile();
+    std::vector<int> getHighscores() const;
 };
 
 #endif //SNAKE_HIGHSCORES_H

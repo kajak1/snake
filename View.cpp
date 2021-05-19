@@ -50,6 +50,10 @@ void View::drawGameplayMenu() {
 void View::drawEndMenu() {
   window.draw(endMenu.getGameOverTxt());
   window.draw(endMenu.getEndGameScoreTxt());
-  window.draw(endMenu.getHighscoresBtn());
+//  window.draw(endMenu.getHighscoresBtn());
+  for(sf::Text highscore: endMenu.getHighscoresTxt()) {
+    window.draw(highscore);
+  }
+//  window.draw()
   window.draw(endMenu.getStartGameBtn());
 }
