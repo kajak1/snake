@@ -1,11 +1,11 @@
 #ifndef SNAKE_EVENTHANDLER_H
 #define SNAKE_EVENTHANDLER_H
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
-#include "Game.h"
-#include "Snake.h"
-#include "View.h"
+#include "../Game.h"
+#include "../Snake.h"
+#include "../View.h"
 
 class EventHandler{
   Snake &snake;
@@ -18,7 +18,8 @@ class EventHandler{
     void listen(sf::Event &event);
     void handleBtnClick(sf::Event &event);
     void handleWASD_Click(sf::Event &event);
-    void handleSpaceClick();
+    void handleStartBtnClick();
+    void handleRestartBtnClick(bool totally);
 };
 
 #endif //SNAKE_EVENTHANDLER_H
