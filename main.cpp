@@ -4,7 +4,7 @@
 
 #include "headers/Snake.h"
 #include "headers/Game.h"
-#include "headers/EventHandler.h"
+#include "headers/utils/EventHandler.h"
 
 int main() {
   srand(time(NULL));
@@ -16,18 +16,20 @@ int main() {
   EndMenu endMenu;
   GameplayMenu gameplayMenu;
   View view(snake, map, startMenu, endMenu, gameplayMenu, window);
-  Game game(snake, map, startMenu, endMenu, gameplayMenu, view, window);
+  Game game(snake, map, startMenu, endMenu, gameplayMenu, view);
 
   EventHandler eventHandler(snake, game, view, window);
 
-  window.setFramerateLimit( 16);
+  window.setFramerateLimit( 8);
+
+  sf::Color backgroundColor = sf::Color(38, 70, 83);
 
   while (window.isOpen()) {
     sf::Event event;
     while (window.pollEvent(event)) {
       eventHandler.listen(event);
     }
-    window.clear(sf::Color::Black);
+    window.clear(backgroundColor);
     game.run();
     window.display();
   }

@@ -1,4 +1,4 @@
-#include "headers/Highscores.h"
+#include "../headers/utils/Highscores.h"
 
 #include <iostream>
 
@@ -15,7 +15,6 @@ void Highscores::readFromFile() {
   if (highscoresOUT.is_open()) {
     while (getline(highscoresOUT, line)) {
       highscores.push_back(std::stoi(line));
-      std::cout << "dodalem " << std::stoi(line) << '\n';
       scoreCount += 1;
     }
     highscoresOUT.close();

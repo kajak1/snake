@@ -1,7 +1,8 @@
 #include "../headers/menus/GameplayMenu.h"
+#include "../headers/utils/constants.h"
 
 GameplayMenu::GameplayMenu() {
-  setupTxt(scoreTxt, "SCORE: 0", 36, sf::Vector2f(840.f/2, 50.f));
+  setupTxt(scoreTxt, "SCORE: 0", textColor, 36, sf::Vector2f(840.f/2, 50.f));
 }
 
 void GameplayMenu::updateScoreTxt(int score) {
