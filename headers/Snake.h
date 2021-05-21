@@ -9,6 +9,8 @@ enum Turn { LEFT, RIGHT };
 class Snake{
   int length = 3;
 
+  bool didTurn = false;
+
   const int width = 20.f;
   const int height = 20.f;
   int posX = 200.f;
@@ -29,16 +31,19 @@ class Snake{
     Snake();
     std::vector<sf::RectangleShape> getParts();
     sf::Vector2f getPartPos(int part) const;
+
+    void setDidTurn(bool didTurn);
+    bool getDidTurn() const;
+
     int getLength() const;
     void incLength();
+
     int getWidth() const;
     int getHeight() const;
-    int getPosX() const;
-    int getPosY() const;
     int getDirX() const;
     int getDirY() const;
 
-    void update();
+    void update(sf::Clock &clock);
     void resetState();
 
     void turn(Turn direction);

@@ -5,8 +5,8 @@
 
 Game::Game(Snake &snake, Map &map, StartMenu &startMenu,
            EndMenu &endMenu,
-           GameplayMenu &gameplayMenu, View &view, sf::RenderWindow &window)
-: snake(snake), map(map), startMenu(startMenu), endMenu(endMenu), gameplayMenu(gameplayMenu), view(view), window(window) {}
+           GameplayMenu &gameplayMenu, View &view)
+: snake(snake), map(map), startMenu(startMenu), endMenu(endMenu), gameplayMenu(gameplayMenu), view(view) {}
 
 void Game::run() {
   if(menuActive == START_MENU) view.drawStartMenu();
@@ -14,10 +14,11 @@ void Game::run() {
   if(menuActive == END_MENU) view.drawEndMenu();
 
   if(gameState == RUNNING) {
-    snake.update();
+    snake.setDidTurn(false);
+    snake.update(clock);
     checkScoreUpdate();
     map.updateSnakePos();
-    if(map.isSnakeOutside() || map.snakeSelfCollide()){
+    if(map.isSnakeOutside() || map.snakeSelfCollide() || map.snakeObstacleCollide()){
       gameState = FINISHED_LOSS;
       menuActive = END_MENU;
       saveScore();
@@ -31,19 +32,15 @@ void Game::run() {
 }
 
 void Game::checkScoreUpdate() {
-  if(map.checkFoodEat()){
-    score += 50;
+  if (map.checkFoodEat()){
+    if (gameMode == EASY) {
+      score += 100;
+    } else {
+      score += 50;
+    }
     gameplayMenu.updateScoreTxt(score);
     endMenu.updateEndGameScoreTxt(score);
   }
-}
-
-void Game::debug_display() const {
-  sf::RectangleShape snakeShape(
-          sf::Vector2f(snake.getWidth(), snake.getHeight())
-  );
-  snakeShape.setPosition(snake.getPosX(), snake.getPosY());
-  window.draw(snakeShape);
 }
 
 void Game::startGame() {
@@ -55,19 +52,20 @@ GameState Game::getGameState() const {
   return gameState;
 }
 
-MenuActive Game::getActiveMenu() const {
-  return menuActive;
-}
-
-void Game::restart() {
+void Game::restart(bool totally) {
   snake.resetState();
-  map.resetState();
+  map.createBoard(gameMode);
   resetScore();
 
   gameplayMenu.updateScoreTxt(score);
   endMenu.updateEndGameScoreTxt(score);
 
-  startGame();
+  if (totally) {
+    gameState = NOT_RUNNING;
+    menuActive = START_MENU;
+  } else {
+    startGame();
+  }
 }
 
 void Game::resetScore() {
@@ -78,4 +76,17 @@ void Game::saveScore()  {
   highscores.readFromFile();
   highscores.updateVector(score);
   highscores.saveToFile();
+}
+
+StartMenu Game::getStartMenu() const {
+  return startMenu;
+}
+
+EndMenu Game::getEndMenu() const {
+  return endMenu;
+}
+
+void Game::setGameMode(GameMode mode) {
+  gameMode = mode;
+  map.createBoard(mode);
 }

@@ -2,6 +2,11 @@
 #include <iostream>
 
 Map::Map(Snake &snake) : snake(snake){
+  createBoard(NORMAL);
+}
+
+void Map::createBoard(GameMode mode) {
+  this->mode = mode;
   // 0 to 19
   for(int row = 0; row < height; row++){
     // 0 to 31
@@ -27,6 +32,15 @@ Map::Map(Snake &snake) : snake(snake){
   while(foodPlaced < foodCount){
     createFood();
     foodPlaced++;
+  }
+
+  obstaclesPos.clear();
+  if (this->mode == HARD) {
+    int obstaclePlaced = 0;
+    while(obstaclePlaced < obstacleCount){
+      createObstalces();
+      obstaclePlaced++;
+    }
   }
 }
 
@@ -62,14 +76,15 @@ void Map::updateSnakePos() {
 }
 
 void Map::createFood() {
-  int randomRow = rand() % height;
-  int randomColumn = rand() % width;
+  int randRow = rand() % height;
+  int randColumn = rand() % width;
 
-  if(!board[randomRow][randomColumn].hasFruit
-    && !board[randomRow][randomColumn].hasSnake){
-    board[randomRow][randomColumn].hasFruit = true;
-    foodPos.row = randomRow;
-    foodPos.column = randomColumn;
+  if(!board[randRow][randColumn].hasFruit
+    && !board[randRow][randColumn].hasSnake
+    && !board[randRow][randColumn].hasObstacle){
+    board[randRow][randColumn].hasFruit = true;
+    foodPos.row = randRow;
+    foodPos.column = randColumn;
   } else {
     createFood();
   }
@@ -145,30 +160,53 @@ bool Map::isValid(int row, int column) const {
   return true;
 }
 
-void Map::resetState() {
-  for(int row = 0; row < height; row++){
-    // 0 to 31
-    for(int column = 0; column < width; column++){
-      board[row][column].hasSnake = false;
-      board[row][column].hasFruit = false;
-      board[row][column].hasObstacle = false;
-    }
-  }
+void Map::createObstalces() {
+  int randRow = rand() % height;
+  int randColumn = rand() % width;
 
-  for(int i = 0; i < snake.getLength(); i++){
-    int x = snake.getPartPos(i).x - offsetX;
-    int y = snake.getPartPos(i).y - offsetY;
-    int row = y/snake.getWidth();
-    int column = x/snake.getHeight();
-
-    if(isValid(row, column)){
-      board[row][column].hasSnake = true;
-    }
-  }
-
-  int foodPlaced = 0;
-  while(foodPlaced < foodCount){
-    createFood();
-    foodPlaced++;
+  if(!board[randRow][randColumn].hasObstacle
+     && !board[randRow][randColumn].hasSnake
+     && !board[randRow][randColumn].hasFruit
+     && isObstacleAllowed(randRow, randColumn)) {
+      board[randRow][randColumn].hasObstacle = true;
+      ObstaclePos pos {
+        .row = randRow,
+        .column = randColumn
+      };
+      obstaclesPos.push_back(pos);
+    } else {
+    createObstalces();
   }
 }
+
+bool Map::isObstacleAllowed(int row, int column) const {
+  int x = snake.getPartPos(0).x - offsetX;
+  int y = snake.getPartPos(0).y - offsetY;
+  int snakeRow = y/snake.getWidth();
+  int snakeColumn = x/snake.getHeight();
+  if ((row < snakeRow || row > snakeRow) && (column < snakeColumn-2 || column > snakeColumn+3)) {
+    return true;
+  }
+  return false;
+}
+
+bool Map::snakeObstacleCollide() const {
+  int x = snake.getPartPos(0).x - offsetX;
+  int y = snake.getPartPos(0).y - offsetY;
+  int row = y/snake.getWidth();
+  int column = x/snake.getHeight();
+  for (ObstaclePos obstacle: obstaclesPos) {
+    if (row == obstacle.row && column == obstacle.column) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool Map::hasObstacle(int row, int column) const {
+  if(board[row][column].hasObstacle){
+    return true;
+  }
+  return false;
+}
+
