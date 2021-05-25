@@ -17,14 +17,6 @@ int Snake::getHeight() const {
   return height;
 }
 
-int Snake::getPosX() const {
-  return posX;
-}
-
-int Snake::getPosY() const {
-  return posY;
-}
-
 void Snake::move() {
   sf::Vector2f pos = parts[0].getPosition();
 
@@ -39,9 +31,13 @@ void Snake::move() {
   parts[0].setPosition(futurePosX, futurePosY);
 }
 
-void Snake::update() {
-  move();
-  // check whether he ate something
+void Snake::update(sf::Clock &clock) {
+  sf::Time time = clock.getElapsedTime();
+
+  if(time.asMilliseconds() >= 100) {
+    move();
+    clock.restart();
+  }
 }
 
 int Snake::getLength() const {
@@ -49,6 +45,7 @@ int Snake::getLength() const {
 }
 
 void Snake::turn(Turn direction) {
+  setDidTurn(true);
   switch (direction) {
     case LEFT:
       turnLeft();
@@ -101,7 +98,6 @@ void Snake::incLength() {
   length++;
   sf::RectangleShape newPart(sf::Vector2f(width, height));
   sf::Vector2f lastPartPos = parts[length-2].getPosition(); // -2 because length-1 is the new created empty part
-  newPart.setFillColor(sf::Color::Green);
   newPart.setPosition(lastPartPos.x, lastPartPos.y);
   parts.push_back(newPart);
 }
@@ -128,5 +124,13 @@ void Snake::resetState() {
     newPart.setPosition(posX-(i * width), posY);
     parts.push_back(newPart);
   }
+}
+
+bool Snake::getDidTurn() const {
+  return didTurn;
+}
+
+void Snake::setDidTurn(bool didTurn) {
+  this->didTurn = didTurn;
 }
 

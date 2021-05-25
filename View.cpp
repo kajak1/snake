@@ -1,6 +1,6 @@
-#include "headers/View.h"
-
 #include <iostream>
+#include "headers/View.h"
+#include "headers/utils/constants.h"
 
 View::View(Snake &snake,
            Map &map,
@@ -17,6 +17,7 @@ View::View(Snake &snake,
 
 void View::drawSnake() {
   for(auto part: snake.getParts()){
+    part.setFillColor(snakeColor);
     window.draw(part);
   }
 }
@@ -25,11 +26,20 @@ void View::drawMap() {
   for(int row = 0; row < map.getHeight(); row++){
     for(int column = 0; column < map.getWidth(); column++){
       sf::RectangleShape square(sf::Vector2f(20.f, 20.f));
-      sf::Color color = map.hasFood(row, column) ? sf::Color::Magenta : sf::Color::Blue;
+
+      sf::Color color;
+
+      if (map.hasFood(row, column)) {
+        color = foodColor;
+      } else if (map.hasObstacle(row, column)) {
+        color = obstacleColor;
+      } else {
+        color = btnColor;
+      }
 
       square.setOutlineThickness(1);
       square.setFillColor(color);
-      square.setOutlineColor(sf::Color::Red);
+      square.setOutlineColor(sf::Color(212, 198, 133));
       square.setPosition((column*20.f) + map.getOffsetX(), (row*20.f) + map.getOffsetY());
 
       window.draw(square);
@@ -39,7 +49,14 @@ void View::drawMap() {
 
 void View::drawStartMenu() {
   window.draw(startMenu.getGameTitleTxt());
-  window.draw(startMenu.getStartGameBtn());
+  window.draw(startMenu.getEasyBtn());
+  window.draw(startMenu.getEasyBtnTxt());
+
+  window.draw(startMenu.getNormalBtn());
+  window.draw(startMenu.getNormalBtnTxt());
+
+  window.draw(startMenu.getHardBtn());
+  window.draw(startMenu.getHardBtnTxt());
   window.draw(startMenu.getHighscoresBtn());
 }
 
@@ -50,6 +67,15 @@ void View::drawGameplayMenu() {
 void View::drawEndMenu() {
   window.draw(endMenu.getGameOverTxt());
   window.draw(endMenu.getEndGameScoreTxt());
-  window.draw(endMenu.getHighscoresBtn());
-  window.draw(endMenu.getStartGameBtn());
+  window.draw(endMenu.getHighscoresTxt());
+
+  for(sf::Text highscore: endMenu.gethighscoresVec()) {
+    window.draw(highscore);
+  }
+
+  window.draw(endMenu.getRestartGameBtn());
+  window.draw(endMenu.getRestartGameBtnTxt());
+
+  window.draw(endMenu.getChangeDiffBtn());
+  window.draw(endMenu.getChangeDiffBtnTxt());
 }

@@ -10,7 +10,7 @@ class Menu {
   public:
     Menu();
     void setupFont();
-    void setupTxt(sf::Text &entity, std::string text, int fontSize, int posY);
+    void setupTxt(sf::Text &entity, std::string text, sf::Color txtColor, int fontSize, sf::Vector2f pos);
 };
 
 #endif //SNAKE_MENU_H
